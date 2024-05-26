@@ -84,7 +84,7 @@ def main(model_name, dataset_name):
     test_size = len(dataset) - train_size
 
     train_dataset, test_dataset = random_split(
-        dataset, [train_size, test_size]
+        dataset, [train_size, test_size], generator = torch.Generator(device='cuda')
     )
 
     if os.path.exists(os.path.join(dataset.dataset_dir, "train_indices.pkl")):
@@ -108,11 +108,11 @@ def main(model_name, dataset_name):
 
     train_loader = DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True,
-        collate_fn=collate_fn
+        collate_fn=collate_fn, generator = torch.Generator(device='cuda')
     )
     test_loader = DataLoader(
         test_dataset, batch_size=test_size, shuffle=True,
-        collate_fn=collate_fn
+        collate_fn=collate_fn, generator = torch.Generator(device='cuda')
     )
 
     if optimizer == "sgd":

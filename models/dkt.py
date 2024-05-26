@@ -93,7 +93,9 @@ class DKT(Module):
                     y = (y * one_hot(qshft.long(), self.num_q)).sum(-1)
 
                     y = torch.masked_select(y, m).detach().cpu()
+                    # print(y)
                     t = torch.masked_select(rshft, m).detach().cpu()
+                    # print(t)
 
                     auc = metrics.roc_auc_score(
                         y_true=t.numpy(), y_score=y.numpy()
