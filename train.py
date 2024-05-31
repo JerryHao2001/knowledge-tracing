@@ -57,25 +57,25 @@ def main(model_name, dataset_name):
         device = "cuda"
     else:
         device = "cpu"
-
+    model_config["num_q"] = dataset.num_q
     with open(os.path.join(ckpt_path, "model_config.json"), "w") as f:
         json.dump(model_config, f, indent=4)
     with open(os.path.join(ckpt_path, "train_config.json"), "w") as f:
         json.dump(train_config, f, indent=4)
 
     if model_name == "dkt":
-        model = DKT(dataset.num_q, **model_config).to(device)
+        model = DKT(**model_config).to(device)
     elif model_name == "dkt+":
-        model = DKTPlus(dataset.num_q, **model_config).to(device)
+        model = DKTPlus(**model_config).to(device)
     elif model_name == "dkvmn":
-        model = DKVMN(dataset.num_q, **model_config).to(device)
+        model = DKVMN(**model_config).to(device)
     elif model_name == "sakt":
-        model = SAKT(dataset.num_q, **model_config).to(device)
+        model = SAKT(**model_config).to(device)
     elif model_name == "gkt":
         if model_config["method"] == "PAM":
-            model = PAM(dataset.num_q, **model_config).to(device)
+            model = PAM(**model_config).to(device)
         elif model_config["method"] == "MHA":
-            model = MHA(dataset.num_q, **model_config).to(device)
+            model = MHA(**model_config).to(device)
     else:
         print("The wrong model name was used...")
         return
